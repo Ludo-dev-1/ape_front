@@ -1,0 +1,40 @@
+---
+import { Image } from "astro:assets";
+import groupe from "../assets/groupe.jpg";
+import feteApe from "../assets/feteApe.jpg";
+---
+
+<!-- Événement du mois -->
+<section class="bg-blue-50 py-12">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-semibold mb-4">Événement du mois</h2>
+        <article class="bg-white p-6 rounded-lg shadow mb-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Fête de l’école – 3 juillet 2025
+            </h3>
+            <div class="flex flex-col md:flex-row items-center gap-4">
+                <p>
+                    Une journée festive avec stands, spectacles, tombola et
+                    animations pour petits et grands ! Lorem ipsum dolor sit,
+                    amet consectetur adipisicing elit. Maiores quisquam dolore
+                    commodi omnis, dolorum odio praesentium minima fuga eveniet
+                    ipsam aperiam facilis nam. Enim veritatis dignissimos minus
+                    eaque consectetur dolorem! Lorem ipsum dolor sit, amet
+                    consectetur adipisicing elit. Sed neque magnam aut
+                    voluptatibus deleniti numquam obcaecati, ducimus nesciunt
+                    repellendus inventore.
+                </p>
+                <Image
+                    src={feteApe}
+                    alt="Fête de l'école"
+                    class="rounded-lg shadow-md mt-4 w-1/3 h-auto"
+                />
+            </div>
+        </article>
+        <a
+            href="/evenements.html"
+            class="inline-block bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition"
+            >Voir tous les événements</a
+        >
+    </div>
+</section>

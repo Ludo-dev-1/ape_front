@@ -1,0 +1,64 @@
+---
+import { Image } from "astro:assets";
+import apeLogo from "../assets/apeLogo.jpg";
+---
+
+<!-- Header -->
+<header class="bg-white shadow">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+        <Image src={apeLogo} alt="Logo Association" class="w-12 h-12" />
+
+        <!-- Menu burger -->
+        <div class="md:hidden">
+            <input type="checkbox" id="menu-toggle" class="peer hidden" />
+            <label for="menu-toggle" class="cursor-pointer">
+                <svg
+                    class="w-6 h-6 text-gray-800"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </label>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="hidden md:block">
+            <ul class="flex space-x-6 text-sm font-medium">
+                <li><a href="/" class="hover:text-blue-600">Accueil</a></li>
+                <li>
+                    <a href="/news" class="hover:text-blue-600">Actualités</a>
+                </li>
+                <li>
+                    <a href="/events" class="hover:text-blue-600">Événements</a>
+                </li>
+                <li>
+                    <a href="/contact" class="hover:text-blue-600">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Menu mobile -->
+    <div class="peer-checked:block hidden md:hidden px-4 pb-4">
+        <ul class="flex flex-col space-y-2 text-sm font-medium">
+            <li><a href="/" class="block hover:text-blue-600">Accueil</a></li>
+            <li>
+                <a href="/news" class="block hover:text-blue-600">Actualités</a>
+            </li>
+            <li>
+                <a href="/events" class="block hover:text-blue-600"
+                    >Événements</a
+                >
+            </li>
+            <li>
+                <a href="/contact" class="block hover:text-blue-600">Contact</a>
+            </li>
+        </ul>
+    </div>
+</header>

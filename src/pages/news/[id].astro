@@ -1,0 +1,62 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../layouts/Header.astro";
+import Footer from "../../layouts/Footer.astro";
+import DeleteArticleModal from "../../components/DeleteArticleModal";
+
+// Rendu dynamique (pas de pré-render au build)
+export const prerender = false;
+
+// Récupération de l'ID de l'article depuis l'URL
+const { id } = Astro.params;
+
+// Appel serveur
+const response = await fetch(`http://localhost:5000/article/${id}`);
+const article = await response.json();
+
+// Simule un utilisateur connecté
+const user = {
+    role: "membre_bureau",
+};
+---
+
+<Layout>
+    <Header />
+    <section class="bg-white py-12">
+        {
+            user.role === "membre_bureau" && (
+                <DeleteArticleModal
+                    client:load
+                    articleId={article.id}
+                    onArticleDeleted={() =>
+                        window.dispatchEvent(new Event("article-deleted"))
+                    }
+                />
+            )
+        }
+        <div class="container mx-auto px-4 max-w-3xl">
+            <h1 class="text-3xl font-bold mb-6">{article.titre}</h1>
+            <p class="text-gray-600 mb-2 text-sm">
+                Publié le {
+                    new Date(article.date_publication).toLocaleDateString()
+                }
+            </p>
+            <div class="mt-6 text-gray-800 leading-relaxed whitespace-pre-line">
+                {article.contenu}
+            </div>
+            <div class="mt-8">
+                <a href="/news" class="text-blue-600 hover:underline">
+                    ← Retour aux actualités
+                </a>
+            </div>
+            <div>
+                <img
+                    src={article.image}
+                    alt={`Image de ${article.titre}`}
+                    class="mt-6 w-full h-auto rounded-lg shadow-md"
+                />
+            </div>
+        </div>
+    </section>
+    <Footer />
+</Layout>
