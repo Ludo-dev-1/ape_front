@@ -17,12 +17,12 @@ const DeleteArticleModal: React.FC<DeleteArticleModalProps> = ({
                 method: "DELETE",
             });
             onArticleDeleted();
-            window.location.href = "/news";
 
         } catch (error) {
             console.error("Erreur lors de la suppression de l'article:", error);
         } finally {
             setIsOpen(false);
+            window.location.href = "/news";
         }
     };
 
