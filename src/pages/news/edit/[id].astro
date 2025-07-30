@@ -27,6 +27,7 @@ const article = await response.json();
                 client:only="react"
                 articleId={article.id}
                 initialTitre={article.titre}
+                initialContenuBref={article.contenu_bref}
                 initialContenu={article.contenu}
                 initialImage={article.image}
             />

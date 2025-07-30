@@ -6,6 +6,7 @@ import "izitoast/dist/css/iziToast.min.css";
 interface EditArticleFormProps {
     articleId: string;
     initialTitre: string;
+    initialContenuBref: string;
     initialContenu: string;
     initialImage: string;
 }
@@ -13,10 +14,12 @@ interface EditArticleFormProps {
 const EditArticleForm: React.FC<EditArticleFormProps> = ({
     articleId,
     initialTitre,
+    initialContenuBref,
     initialContenu,
     initialImage,
 }) => {
     const [titre, setTitre] = useState(initialTitre);
+    const [contenuBref, setContenuBref] = useState(initialContenuBref);
     const [contenu, setContenu] = useState(initialContenu);
     const [image, setImage] = useState(initialImage);
 
@@ -79,6 +82,15 @@ const EditArticleForm: React.FC<EditArticleFormProps> = ({
                 <textarea
                     value={contenu}
                     onChange={(e) => setContenu(e.target.value)}
+                    className="w-full border px-3 py-2 rounded"
+                    name="contenu"
+                />
+            </div>
+            <div>
+                <label className="block font-medium">Contenu bref</label>
+                <textarea
+                    value={contenuBref}
+                    onChange={(e) => setContenuBref(e.target.value)}
                     className="w-full border px-3 py-2 rounded"
                     name="contenu"
                 />

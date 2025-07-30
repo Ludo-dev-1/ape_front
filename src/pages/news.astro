@@ -25,7 +25,7 @@ const user = {
             </p>
 
             {
-                user.role === "membre_bureau" && (
+                (user.role === "membre_bureau" || user.role === "admin") && (
                     <CreateArticleModal
                         client:load
                         onArticleCreated={() =>
