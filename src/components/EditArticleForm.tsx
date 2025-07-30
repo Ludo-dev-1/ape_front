@@ -1,5 +1,7 @@
 // src/components/EditArticleForm.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 interface EditArticleFormProps {
     articleId: string;
@@ -36,14 +38,27 @@ const EditArticleForm: React.FC<EditArticleFormProps> = ({
             );
 
             if (response.ok) {
-                alert("Article mis à jour !");
-                window.location.href = `/news/${articleId}`;
+                iziToast.success({
+                    title: "Succès",
+                    message: "L'article a bien été modifié !",
+                    position: "topRight", // Optionnel
+                });
+
+                setTimeout(() => {
+                    window.location.href = `/news/${articleId}`;
+                }, 1500); // ⏳ petit délai pour laisser le toast s'afficher
             } else {
-                alert("Erreur lors de la mise à jour.");
+                iziToast.error({
+                    title: "Erreur",
+                    message: "Erreur lors de la mise à jour.",
+                });
             }
         } catch (err) {
             console.error(err);
-            alert("Une erreur est survenue.");
+            iziToast.error({
+                title: "Erreur",
+                message: "Une erreur est survenue.",
+            });
         }
     };
 

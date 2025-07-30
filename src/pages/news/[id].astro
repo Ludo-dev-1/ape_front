@@ -23,7 +23,9 @@ const user = {
 <Layout>
     <Header />
     <section class="bg-white py-12">
-        <div class="container mx-auto px-4 max-w-3xl">
+        <div
+            class="container mx-auto px-4 max-w-3xl flex flex-col items-center"
+        >
             <h1 class="text-3xl font-bold mb-6">{article.titre}</h1>
             <p class="text-gray-600 mb-2 text-sm">
                 Publié le {
@@ -33,11 +35,6 @@ const user = {
             <div class="mt-6 text-gray-800 leading-relaxed whitespace-pre-line">
                 {article.contenu}
             </div>
-            <div class="mt-8">
-                <a href="/news" class="text-blue-600 hover:underline">
-                    ← Retour aux actualités
-                </a>
-            </div>
             <div>
                 <img
                     src={article.image}
@@ -45,28 +42,34 @@ const user = {
                     class="mt-6 w-full h-auto rounded-lg shadow-md"
                 />
             </div>
+            <div class="mt-8">
+                <a href="/news" class="text-blue-600 hover:underline">
+                    ← Retour aux actualités
+                </a>
+            </div>
             {
                 user.role === "membre_bureau" && (
-                    <a
-                        href={`/news/edit/${article.id}`}
-                        class="inline-block bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mt-4"
-                    >
-                        Modifier
-                    </a>
-                )
-            }
-            {
-                user.role === "membre_bureau" && (
-                    <DeleteArticleModal
-                        client:load
-                        articleId={article.id}
-                        onArticleDeleted={() =>
-                            window.dispatchEvent(new Event("article-deleted"))
-                        }
-                    />
+                    <div class="mt-8 w-full flex justify-end gap-4">
+                        <a
+                            href={`/news/edit/${article.id}`}
+                            class="bg-yellow-500 text-white px-4 py-2 mb-4 rounded hover:bg-yellow-600"
+                        >
+                            Modifier
+                        </a>
+                        <DeleteArticleModal
+                            client:load
+                            articleId={article.id}
+                            onArticleDeleted={() =>
+                                window.dispatchEvent(
+                                    new Event("article-deleted"),
+                                )
+                            }
+                        />
+                    </div>
                 )
             }
         </div>
     </section>
-    <Footer />
 </Layout>
+
+<Footer />
