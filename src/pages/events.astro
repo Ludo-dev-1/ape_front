@@ -1,0 +1,80 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../layouts/Header.astro";
+import Footer from "../layouts/Footer.astro";
+import CreateEventModal from "../components/CreateEventModal.tsx";
+// Appel serveur
+const response = await fetch("http://localhost:5000/events");
+const events = await response.json();
+
+// Simule un utilisateur connecté
+const user = {
+    role: "membre_bureau",
+};
+---
+
+<!-- News Page -->
+<Layout>
+    <Header />
+    <section class="bg-gray-100 py-12">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold mb-6">Nos événements</h1>
+            <p class="text-gray-700 mb-4">
+                Découvrez les événements à venir organisés par notre association
+                et participez à la vie de l'école. Les détails de chaque
+                événement seront disponible sur la page d'accueil lorsque
+                l'événement sera en cours.
+            </p>
+
+            {
+                (user.role === "membre_bureau" || user.role === "admin") && (
+                    <CreateEventModal
+                        client:load
+                        onEventCreated={() =>
+                            window.dispatchEvent(new Event("event-created"))
+                        }
+                    />
+                )
+            }
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {
+                    events.map(
+                        (event: {
+                            description: string;
+                            titre: unknown;
+                            date_event: string;
+                            id: number;
+                            image: string;
+                        }) => (
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <h2 class="text-xl font-semibold mb-2">
+                                    {event.titre}
+                                </h2>
+                                <p class="text-gray-600 mb-4">
+                                    {event.description.slice(0, 100)}...
+                                </p>
+                                <p>Prévue pour le {event.date_event}</p>
+                                {event.image && (
+                                    <>
+                                        <img
+                                            src={`http://localhost:5000${event.image}`}
+                                            alt={`Image de l'événement ${event.titre}`}
+                                            class="w-full h-auto rounded-lg shadow-md mt-4"
+                                        />
+                                    </>
+                                )}
+                            </div>
+                        ),
+                    )
+                }
+            </div>
+        </div>
+    </section>
+</Layout>
+<Footer />
+
+<script is:inline>
+    window.addEventListener("article-created", () => {
+        window.location.reload();
+    });
+</script>

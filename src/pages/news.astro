@@ -43,17 +43,13 @@ const user = {
                             id: number;
                         }) => (
                             <div class="bg-white p-6 rounded-lg shadow-md">
-                                <h2 class="text-xl font-semibold mb-2">
-                                    {article.titre}
-                                </h2>
-                                <p class="text-gray-600 mb-4">
-                                    {article.contenu_bref.slice(0, 100)}...
-                                </p>
-                                <a
-                                    href={`/news/${article.id}`}
-                                    class="text-blue-600 hover:underline"
-                                >
-                                    Lire la suite
+                                <a href={`/news/${article.id}`}>
+                                    <h2 class="text-xl font-semibold mb-2">
+                                        {article.titre}
+                                    </h2>
+                                    <p class="text-gray-600 mb-4">
+                                        {article.contenu_bref.slice(0, 100)}...
+                                    </p>
                                 </a>
                             </div>
                         ),
