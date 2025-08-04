@@ -10,7 +10,7 @@ console.log("Events fetched:", events);
         <h2 class="text-2xl font-semibold mb-4">Événement du moment</h2>
         {
             events
-                .slice(3, 4)
+                .slice(8, 9)
                 .map(
                     (event: {
                         titre: string;
@@ -37,7 +37,7 @@ console.log("Events fetched:", events);
                             </p>
                             {event.image && (
                                 <img
-                                    src={event.image}
+                                    src={`http://localhost:5000${event.image}`}
                                     alt={`Image de l'événement ${event.titre}`}
                                     class="w-full h-auto rounded-lg shadow-md"
                                 />
