@@ -39,7 +39,7 @@ console.log("Events fetched:", events);
                                 <img
                                     src={`http://localhost:5000${event.image}`}
                                     alt={`Image de l'événement ${event.titre}`}
-                                    class="w-full h-auto rounded-lg shadow-md"
+                                    class="rounded-lg shadow-md max-h-150 object-cover mb-4 w-full mx-auto"
                                 />
                             )}
                         </div>
@@ -49,7 +49,7 @@ console.log("Events fetched:", events);
 
         <a
             href="/events"
-            class="inline-block bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition"
+            class="inline-block bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition mt-6"
             >Voir tous les événements</a
         >
     </div>
