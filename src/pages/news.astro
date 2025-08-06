@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../layouts/Header.astro";
 import Footer from "../layouts/Footer.astro";
 import CreateArticleModal from "../components/CreateArticleModal.tsx";
+
 // Appel serveur
 const response = await fetch("http://localhost:5000/articles");
 const articles = await response.json();
@@ -27,7 +28,6 @@ const user = {
             {
                 (user.role === "membre_bureau" || user.role === "admin") && (
                     <CreateArticleModal
-                        client:load
                         onArticleCreated={() =>
                             window.dispatchEvent(new Event("article-created"))
                         }
@@ -38,9 +38,10 @@ const user = {
                 {
                     articles.map(
                         (article: {
-                            titre: unknown;
-                            contenu_bref: string;
                             id: number;
+                            titre: string;
+                            contenu_bref: string;
+                            image?: string | null;
                         }) => (
                             <div class="bg-white p-6 rounded-lg shadow-md">
                                 <a href={`/news/${article.id}`}>
@@ -50,6 +51,16 @@ const user = {
                                     <p class="text-gray-600 mb-4">
                                         {article.contenu_bref.slice(0, 100)}...
                                     </p>
+                                    <div>
+                                        <img
+                                            src={
+                                                "http://localhost:5000" +
+                                                article.image
+                                            }
+                                            alt={String(article.titre)}
+                                            class="w-full h-auto rounded max-h-48 object-cover"
+                                        />
+                                    </div>
                                 </a>
                             </div>
                         ),

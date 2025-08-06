@@ -21,23 +21,38 @@ const EditArticleForm: React.FC<EditArticleFormProps> = ({
     const [titre, setTitre] = useState(initialTitre);
     const [contenuBref, setContenuBref] = useState(initialContenuBref);
     const [contenu, setContenu] = useState(initialContenu);
-    const [image, setImage] = useState(initialImage);
+    const [image, setImage] = useState<File | string | null>(initialImage);
 
     const handleEdit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const data = { titre, contenu, image };
+        let data: any;
+        let fetchOptions: RequestInit;
+
+        if (image instanceof File) {
+            data = new FormData();
+            data.append("titre", titre);
+            data.append("contenu", contenu);
+            data.append("image", image);
+            fetchOptions = {
+                method: "PUT",
+                body: data,
+            };
+        } else {
+            data = { titre, contenu, image: image || "" };
+            fetchOptions = {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            };
+        }
 
         try {
             const response = await fetch(
                 `http://localhost:5000/bureau/articles/${articleId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                }
+                fetchOptions
             );
 
             if (response.ok) {
@@ -98,11 +113,18 @@ const EditArticleForm: React.FC<EditArticleFormProps> = ({
             <div>
                 <label className="block font-medium">Image (URL)</label>
                 <input
-                    type="text"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
-                    className="w-full border px-3 py-2 rounded"
+                    className="w-full border px-3 py-2 rounded cursor-pointer"
+                    type="file"
                     name="image"
+                    onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                            setImage(e.target.files[0]);
+                        } else {
+                            setImage(null);
+                        }
+                    }}
+                    accept="image/*"
+                    required
                 />
             </div>
             <button
