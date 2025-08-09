@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../layouts/Header.astro";
 import Footer from "../../layouts/Footer.astro";
-import DeleteArticleModal from "../../components/DeleteArticleModal";
+import DeleteEventModal from "../../components/DeleteEventModal";
 
 // Rendu dynamique (pas de pré-render au build)
 export const prerender = false;
@@ -43,30 +43,33 @@ const user = {
                 />
             </div>
             <div class="mt-8">
-                <a href="/news" class="text-blue-600 hover:underline">
-                    ← Retour aux actualités
+                <a href="/events" class="text-blue-600 hover:underline">
+                    ← Retour aux événements
                 </a>
             </div>
             {
-                user.role === "membre_bureau" && (
-                    <div class="mt-8 w-full flex justify-end gap-4">
-                        <a
-                            href={`/news/edit/${event.id}`}
-                            class="bg-yellow-500 text-white px-4 py-2 mb-4 rounded hover:bg-yellow-600"
-                        >
-                            Modifier
-                        </a>
-                        {/*  <DeleteArticleModal
-                            client:load
-                            eventId={event.id}
-                            onEventDeleted={() =>
-                                window.dispatchEvent(
-                                    new Event("event-deleted"),
-                                )
-                            }
-                        /> */}
-                    </div>
-                )
+                user.role === "membre_bureau" ? (
+                    <>
+                        <div class="mt-8 w-full flex justify-end gap-4">
+                            <a
+                                href={`/events/edit/${event.id}`}
+                                class="bg-yellow-500 text-white px-4 py-2 mb-4 rounded hover:bg-yellow-600"
+                            >
+                                Modifier
+                            </a>
+
+                            <DeleteEventModal
+                                client:load
+                                eventId={event.id}
+                                onEventDeleted={() =>
+                                    window.dispatchEvent(
+                                        new Event("event-deleted"),
+                                    )
+                                }
+                            />
+                        </div>
+                    </>
+                ) : null
             }
         </div>
     </section>

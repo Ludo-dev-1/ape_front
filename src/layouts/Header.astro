@@ -1,6 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import apeLogo from "../assets/apeLogo.jpg";
+
+const user = {
+    role: "",
+};
 ---
 
 <!-- Header -->
@@ -42,25 +46,49 @@ import apeLogo from "../assets/apeLogo.jpg";
                 <li>
                     <a href="/contact" class="hover:text-blue-600">Contact</a>
                 </li>
+                {!user.role && (
+                <li>
+                    <a href="/register" class="hover:text-blue-600"
+                        >Inscription</a>
+                </li>
+                <li>
+                    <a href="/login" class="hover:text-blue-600">Connexion</a>
+                </li>
+                )}
             </ul>
         </nav>
-    </div>
 
-    <!-- Menu mobile -->
-    <div class="peer-checked:block hidden md:hidden px-4 pb-4">
-        <ul class="flex flex-col space-y-2 text-sm font-medium">
-            <li><a href="/" class="block hover:text-blue-600">Accueil</a></li>
-            <li>
-                <a href="/news" class="block hover:text-blue-600">Actualités</a>
-            </li>
-            <li>
-                <a href="/events" class="block hover:text-blue-600"
-                    >Événements</a
-                >
-            </li>
-            <li>
-                <a href="/contact" class="block hover:text-blue-600">Contact</a>
-            </li>
-        </ul>
+        <!-- Menu mobile -->
+        <div class="peer-checked:block hidden md:hidden px-4 pb-4">
+            <ul class="flex flex-col space-y-2 text-sm font-medium">
+                <li>
+                    <a href="/" class="block hover:text-blue-600">Accueil</a>
+                </li>
+                <li>
+                    <a href="/news" class="block hover:text-blue-600"
+                        >Actualités</a
+                    >
+                </li>
+                <li>
+                    <a href="/events" class="block hover:text-blue-600"
+                        >Événements</a
+                    >
+                </li>
+                <li>
+                    <a href="/contact" class="block hover:text-blue-600"
+                        >Contact</a
+                    >
+                </li>
+                 {!user.role && (
+                <li>
+                    <a href="/register" class="hover:text-blue-600"
+                        >Inscription</a>
+                </li>
+                <li>
+                    <a href="/login" class="hover:text-blue-600">Connexion</a>
+                </li>
+                )}
+            </ul>
+        </div>
     </div>
 </header>

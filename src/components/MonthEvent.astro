@@ -5,43 +5,43 @@ console.log("Events fetched:", events);
 ---
 
 <!-- Événement du mois -->
-<section class="bg-blue-50 py-12">
+<section class="bg-gray-100 py-12">
     <div class="container mx-auto px-4">
         <h2 class="text-2xl font-semibold mb-4">Événement du moment</h2>
         {
             events
-                .slice(8, 9)
+                .slice(6, 7)
                 .map(
                     (event: {
+                        [x: string]: any;
                         titre: string;
-                        date: string;
+                        date_event: string;
                         description: string;
                         image: string;
                     }) => (
                         <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-xl font-semibold mb-2">
-                                {event.titre}
-                            </h3>
-                            <p class="text-gray-600 mb-4">
-                                {new Date(event.date).toLocaleDateString(
-                                    "fr-FR",
-                                    {
+                            <a href={`/events/${event.id}`}>
+                                <h3 class="text-xl font-semibold mb-2">
+                                    {event.titre}
+                                </h3>
+                                <p class="text-gray-600 mb-4">
+                                    {new Date(
+                                        event.date_event,
+                                    ).toLocaleDateString("fr-FR", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric",
-                                    },
+                                    })}
+                                </p>
+
+                                {event.image && (
+                                    <img
+                                        src={`http://localhost:5000${event.image}`}
+                                        alt={`Image de l'événement ${event.titre}`}
+                                        class="rounded-lg shadow-md max-h-150 object-cover mb-4 w-full mx-auto"
+                                    />
                                 )}
-                            </p>
-                            <p class="text-gray-700 mb-4">
-                                {event.description}
-                            </p>
-                            {event.image && (
-                                <img
-                                    src={`http://localhost:5000${event.image}`}
-                                    alt={`Image de l'événement ${event.titre}`}
-                                    class="rounded-lg shadow-md max-h-150 object-cover mb-4 w-full mx-auto"
-                                />
-                            )}
+                            </a>
                         </div>
                     ),
                 )
