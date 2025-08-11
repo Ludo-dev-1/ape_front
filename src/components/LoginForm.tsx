@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '../stores/authStore';
 
 
@@ -13,8 +13,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     const [loading, setLoading] = useState(false);
 
     // Fonction de connexion issue du store d'authentification
-    const login = useAuthStore((state) => state.login);
+    const loadFromStorage = useAuthStore((state) => state.loadFromStorage);
 
+    useEffect(() => {
+        loadFromStorage();
+    }, [loadFromStorage]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -96,3 +99,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 };
 
 export default LoginForm;
+function login(arg0: string) {
+    throw new Error('Function not implemented.');
+}
+
