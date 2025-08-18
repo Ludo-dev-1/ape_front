@@ -34,29 +34,17 @@ const user = {
         </div>
 
         <!-- Navigation -->
-        <nav class="hidden md:block">
-            <ul class="flex space-x-6 text-sm font-medium">
-                <li><a href="/" class="hover:text-blue-600">Accueil</a></li>
-                <li>
-                    <a href="/news" class="hover:text-blue-600">Actualités</a>
-                </li>
-                <li>
-                    <a href="/events" class="hover:text-blue-600">Événements</a>
-                </li>
-                <li>
-                    <a href="/contact" class="hover:text-blue-600">Contact</a>
-                </li>
-                {!user.role && (
-                <li>
-                    <a href="/register" class="hover:text-blue-600"
-                        >Inscription</a>
-                </li>
-                <li>
-                    <a href="/login" class="hover:text-blue-600">Connexion</a>
-                </li>
-                )}
-            </ul>
-        </nav>
+        <nav id="nav-menu" class="hidden md:block">
+  <ul class="flex space-x-6 text-sm font-medium">
+    <li><a href="/" class="hover:text-blue-600">Accueil</a></li>
+    <li><a href="/news" class="hover:text-blue-600">Actualités</a></li>
+    <li><a href="/events" class="hover:text-blue-600">Événements</a></li>
+    <li><a href="/contact" class="hover:text-blue-600">Contact</a></li>
+  </ul>
+</nav>
+
+
+
 
         <!-- Menu mobile -->
         <div class="peer-checked:block hidden md:hidden px-4 pb-4">
@@ -92,3 +80,27 @@ const user = {
         </div>
     </div>
 </header>
+
+<script type="module">
+  const token = localStorage.getItem("token");
+  const navMenu = document.getElementById("nav-menu").querySelector("ul");
+
+  if (token) {
+    // Utilisateur connecté
+    navMenu.innerHTML += `
+      <li><a href="/profile" class="hover:text-blue-600">Mon Profil</a></li>
+      <li><button id="logout-btn" class="hover:text-blue-600 cursor-pointer">Déconnexion</button></li>
+    `;
+
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "/"; // Redirige après déconnexion
+    });
+  } else {
+    // Utilisateur non connecté
+    navMenu.innerHTML += `
+      <li><a href="/register" class="hover:text-blue-600">Inscription</a></li>
+      <li><a href="/login" class="hover:text-blue-600">Connexion</a></li>
+    `;
+  }
+</script>

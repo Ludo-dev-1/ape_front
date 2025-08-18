@@ -1,0 +1,19 @@
+---
+
+---
+
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Déconnexion...</title>
+    </head>
+    <body>
+        <p>Déconnexion en cours...</p>
+
+        <script type="module">
+            import { logout } from "/logout.js"; // note le "/" qui pointe vers /public
+            logout();
+            window.location.href = "/login";
+        </script>
+    </body>
+</html>

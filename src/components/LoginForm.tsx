@@ -15,6 +15,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     // Fonction de connexion issue du store d'authentification
     const loadFromStorage = useAuthStore((state) => state.loadFromStorage);
 
+    const login = useAuthStore((state) => state.login);
+
+
     useEffect(() => {
         loadFromStorage();
     }, [loadFromStorage]);
@@ -38,10 +41,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
             }
 
             // Si succès
+            const data = await response.json();
+            const token = data.token;
+            login(token);
             if (onLoginSuccess) onLoginSuccess();
             // Sinon, tu peux rediriger ici ou gérer la suite
             window.location.href = "/"; // Redirection vers la page de connexion après l'inscription
-            login(await response.text()); // Appel de la fonction de login du store avec le token reçu
 
         } catch (err: any) {
             setError(err.message || 'Erreur inconnue');
@@ -51,55 +56,50 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto p-6 border rounded shadow-md">
-            <h2 className="text-2xl font-bold mb-4 text-center">Connexion</h2>
-
-            {error && (
-                <div className="mb-4 text-red-600 bg-red-100 p-2 rounded">
-                    {error}
+        <section className="bg-gray-100 py-12 min-h-screen flex items-center justify-center">
+            <form onSubmit={handleSubmit} className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg space-y-4">
+                <h2 className="text-2xl font-bold mb-4 text-center">Connexion</h2>
+                {error && (
+                    <div className="mb-4 text-red-600 bg-red-100 p-2 rounded">
+                        {error}
+                    </div>
+                )}
+                <div className="mb-4">
+                    <label htmlFor="email" className="block mb-1 font-semibold">Email</label>
+                    <input
+                        id="email"
+                        type="email"
+                        required
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        className="border border-gray-300 p-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="exemple@domaine.com"
+                    />
                 </div>
-            )}
-
-            <div className="mb-4">
-                <label htmlFor="email" className="block mb-1 font-semibold">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    required
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    className="w-full border px-3 py-2 rounded"
-                    placeholder="exemple@domaine.com"
-                />
-            </div>
-
-            <div className="mb-6">
-                <label htmlFor="password" className="block mb-1 font-semibold">Mot de passe</label>
-                <input
-                    id="password"
-                    type="password"
-                    required
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    className="w-full border px-3 py-2 rounded"
-                    placeholder="Votre mot de passe"
-                />
-            </div>
-
-            <button
-                type="submit"
-                disabled={loading}
-                className={`w-full py-2 px-4 font-semibold rounded text-white ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-                    }`}
-            >
-                {loading ? 'Connexion...' : 'Se connecter'}
-            </button>
-        </form>
+                <div className="mb-6">
+                    <label htmlFor="password" className="block mb-1 font-semibold">Mot de passe</label>
+                    <input
+                        id="password"
+                        type="password"
+                        required
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        className="border border-gray-300 p-3 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="Votre mot de passe"
+                    />
+                </div>
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className={`w-full py-2 px-4 font-semibold rounded text-white ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+                        }`}
+                >
+                    {loading ? 'Connexion...' : 'Se connecter'}
+                </button>
+            </form>
+        </section>
     );
 };
+/* The login function is provided by the authStore, so this stub is not needed and has been removed. */
 
 export default LoginForm;
-function login(arg0: string) {
-    throw new Error('Function not implemented.');
-}
-

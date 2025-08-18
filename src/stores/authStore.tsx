@@ -10,7 +10,10 @@ interface IAuthState {
     token: string | null;
     isAdmin: boolean;
     isMember: boolean;
+    isMemberBureau: boolean;
+    isParent: boolean;
     userId: number | null;
+    role_id: number | null; // ajout de role_id pour correspondre à la structure du token
     login: (token: string) => void;
     logout: () => void;
     loadFromStorage: () => void;  // nouvelle fonction pour charger depuis localStorage
@@ -20,7 +23,10 @@ export const useAuthStore = create<IAuthState>((set) => ({
     token: null,
     isAdmin: false,
     isMember: false,
+    isMemberBureau: false,
+    isParent: false,
     userId: null,
+    role_id: null,
 
     login: (token: string) => {
         localStorage.setItem("token", token);
@@ -29,16 +35,24 @@ export const useAuthStore = create<IAuthState>((set) => ({
         const isAdmin = decodedToken.role_id === 1;
         const isParent = decodedToken.role_id === 2;
         const isMemberBureau = decodedToken.role_id === 3;
-        const isMembre = decodedToken.role_id === 4;
+        const isMember = decodedToken.role_id === 4;
         const userId = decodedToken.id;
 
         localStorage.setItem("isAdmin", String(isAdmin));
         localStorage.setItem("isMemberBureau", String(isMemberBureau));
-        localStorage.setItem("isMembre", String(isMembre));
-        localStorage.setItem("isMember", String(isParent || isMemberBureau || isMembre));
+        localStorage.setItem("isMember", String(isMember));
+        localStorage.setItem("isParent", String(isParent));
         localStorage.setItem("userId", String(userId));
+        localStorage.setItem("role_id", String(decodedToken.role_id));
 
-        set({ token, isAdmin, isMember: isParent || isMemberBureau || isMembre, userId });
+        set({
+            token,
+            isAdmin,
+            isParent,
+            isMemberBureau,
+            isMember: isParent || isMemberBureau || isMember, // booléen global
+            userId
+        });
     },
 
     logout: () => {
@@ -49,7 +63,7 @@ export const useAuthStore = create<IAuthState>((set) => ({
         localStorage.removeItem("isParent");
         localStorage.removeItem("userId");
 
-        set({ token: null, isAdmin: false, isMember: false, userId: null });
+        set({ token: null, isAdmin: false, userId: null, isMemberBureau: false, isParent: false });
     },
 
     loadFromStorage: () => {
@@ -57,10 +71,13 @@ export const useAuthStore = create<IAuthState>((set) => ({
             const token = localStorage.getItem("token");
             const isAdmin = localStorage.getItem("isAdmin") === "true";
             const isMember = localStorage.getItem("isMember") === "true";
+            const isMemberBureau = localStorage.getItem("isMemberBureau") === "true";
+            const isParent = localStorage.getItem("isParent") === "true";
+
             const userIdStr = localStorage.getItem("userId");
             const userId = userIdStr ? Number(userIdStr) : null;
 
-            set({ token, isAdmin, isMember, userId });
+            set({ token, isAdmin, isMember, isMemberBureau, isParent, userId });
         }
     }
 }));
