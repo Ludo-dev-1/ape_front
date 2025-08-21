@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../layouts/Header.astro";
 import Footer from "../layouts/Footer.astro";
-import CreateEventModal from "../components/CreateEventModal.tsx";
+import CreateEventButton from "../components/CreateEventButton.tsx";
 // Appel serveur
 const response = await fetch("http://localhost:5000/events");
 const events = await response.json();
@@ -26,16 +26,7 @@ const user = {
                 l'événement sera en cours.
             </p>
 
-            {
-                (user.role === "membre_bureau" || user.role === "admin") && (
-                    <CreateEventModal
-                        client:load
-                        onEventCreated={() =>
-                            window.dispatchEvent(new Event("event-created"))
-                        }
-                    />
-                )
-            }
+            <CreateEventButton client:load />
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {
                     events.map(
