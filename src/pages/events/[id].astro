@@ -2,22 +2,13 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../layouts/Header.astro";
 import Footer from "../../layouts/Footer.astro";
-import DeleteEventModal from "../../components/DeleteEventModal";
+import EventActions from "../../components/EventActions.tsx";
 
-// Rendu dynamique (pas de pré-render au build)
 export const prerender = false;
 
-// Récupération de l'ID de l'article depuis l'URL
 const { id } = Astro.params;
-
-// Appel serveur
 const response = await fetch(`http://localhost:5000/event/${id}`);
 const event = await response.json();
-
-// Simule un utilisateur connecté
-const user = {
-    role: "membre_bureau",
-};
 ---
 
 <Layout>
@@ -47,30 +38,9 @@ const user = {
                     ← Retour aux événements
                 </a>
             </div>
-            {
-                user.role === "membre_bureau" ? (
-                    <>
-                        <div class="mt-8 w-full flex justify-end gap-4">
-                            <a
-                                href={`/events/edit/${event.id}`}
-                                class="bg-yellow-500 text-white px-4 py-2 mb-4 rounded hover:bg-yellow-600"
-                            >
-                                Modifier
-                            </a>
 
-                            <DeleteEventModal
-                                client:load
-                                eventId={event.id}
-                                onEventDeleted={() =>
-                                    window.dispatchEvent(
-                                        new Event("event-deleted"),
-                                    )
-                                }
-                            />
-                        </div>
-                    </>
-                ) : null
-            }
+            <!-- Boutons conditionnels -->
+            <EventActions client:load eventId={event.id} />
         </div>
     </section>
 </Layout>

@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../layouts/Header.astro";
 import Footer from "../../layouts/Footer.astro";
-import DeleteArticleModal from "../../components/DeleteArticleModal";
+import ArticleActions from "../../components/ArticleActions.tsx";
 
 // Rendu dynamique (pas de pré-render au build)
 export const prerender = false;
@@ -13,11 +13,6 @@ const { id } = Astro.params;
 // Appel serveur
 const response = await fetch(`http://localhost:5000/article/${id}`);
 const article = await response.json();
-
-// Simule un utilisateur connecté
-const user = {
-    role: "membre_bureau",
-};
 ---
 
 <Layout>
@@ -47,27 +42,9 @@ const user = {
                     ← Retour aux actualités
                 </a>
             </div>
-            {
-                user.role === "membre_bureau" && (
-                    <div class="mt-8 w-full flex justify-end gap-4">
-                        <a
-                            href={`/news/edit/${article.id}`}
-                            class="bg-yellow-500 text-white px-4 py-2 mb-4 rounded hover:bg-yellow-600"
-                        >
-                            Modifier
-                        </a>
-                        <DeleteArticleModal
-                            client:load
-                            articleId={article.id}
-                            onArticleDeleted={() =>
-                                window.dispatchEvent(
-                                    new Event("article-deleted"),
-                                )
-                            }
-                        />
-                    </div>
-                )
-            }
+
+            <!-- Boutons conditionnels -->
+            <ArticleActions client:load articleId={article.id} />
         </div>
     </section>
 </Layout>

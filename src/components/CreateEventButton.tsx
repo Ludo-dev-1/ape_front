@@ -1,4 +1,4 @@
-// CreateArticleButton.tsx
+// CreateEventButton.tsx
 import CreateEventModal from "./CreateEventModal.tsx";
 
 export default function CreateEventButton() {
