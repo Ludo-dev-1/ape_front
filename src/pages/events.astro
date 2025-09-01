@@ -6,11 +6,6 @@ import CreateEventButton from "../components/CreateEventButton.tsx";
 // Appel serveur
 const response = await fetch("http://localhost:5000/events");
 const events = await response.json();
-
-// Simule un utilisateur connecté
-const user = {
-    role: "membre_bureau",
-};
 ---
 
 <!-- News Page -->
