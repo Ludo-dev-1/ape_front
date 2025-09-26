@@ -1,0 +1,19 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../layouts/Header.astro";
+import Footer from "../../layouts/Footer.astro";
+import AppProvider from "../../components/AppProvider";
+
+const { id } = Astro.params;
+const saleId = id ?? "";
+export const prerender = false;
+---
+
+<Layout>
+    <Header />
+
+    <!-- L'île React complète pour la boutique -->
+    <AppProvider saleId={saleId} client:load />
+
+    <Footer />
+</Layout>

@@ -1,0 +1,13 @@
+---
+import React from "react";
+---
+
+<div>
+    <p>Astro fonctionne côté serveur ✅</p>
+    <button
+        client:only="react"
+        onClick={() => alert("React fonctionne côté client ✅")}
+    >
+        Test React
+    </button>
+</div>

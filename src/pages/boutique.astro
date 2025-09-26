@@ -1,0 +1,60 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../layouts/Header.astro";
+import Footer from "../layouts/Footer.astro";
+import CreateArticleButton from "../components/CreateArticleButton.tsx";
+
+// Appel serveur
+const response = await fetch("http://localhost:5000/shop/sales");
+const articles = await response.json();
+---
+
+<!-- Boutique Page -->
+<Layout>
+    <Header />
+    <section class="bg-gray-100 py-12">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold mb-6">Boutique</h1>
+            <p class="text-gray-700 mb-4">
+                Découvrez les articles disponibles à la vente dans notre
+                boutique.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {
+                    articles.map(
+                        (article: {
+                            id: number;
+                            name: string;
+                            start_date: number;
+                            end_date: number;
+                        }) => (
+                            <div class="bg-white p-6 rounded-lg shadow-md">
+                                <a href={`/boutique/${article.id}`}>
+                                    <h2 class="text-xl font-semibold mb-2">
+                                        {article.name}
+                                    </h2>
+                                    <p class="text-gray-600 mb-4 h-20 overflow-hidden">
+                                        {" "}
+                                        Début de la vente le
+                                        {new Date(
+                                            article.start_date,
+                                        ).toLocaleDateString()}
+                                    </p>
+                                    <p class="text-gray-600 mb-4 h-20 overflow-hidden">
+                                        {" "}
+                                        Fin de la vente le
+                                        {new Date(
+                                            article.end_date,
+                                        ).toLocaleDateString()}
+                                    </p>
+                                </a>
+                            </div>
+                        ),
+                    )
+                }
+            </div>
+        </div>
+    </section>
+    <Footer />
+</Layout>

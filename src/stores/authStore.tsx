@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { jwtDecode } from "jwt-decode"; // attention à l'import par défaut, pas destructuré
 
 interface DecodedToken {
+    email: any;
     role_id: number;
     id: number;
 }
@@ -27,6 +28,7 @@ export const useAuthStore = create<IAuthState>((set) => ({
     isParent: false,
     userId: null,
     role_id: null,
+    userEmail: null,
 
     login: (token: string) => {
         localStorage.setItem("token", token);
@@ -37,12 +39,14 @@ export const useAuthStore = create<IAuthState>((set) => ({
         const isMemberBureau = decodedToken.role_id === 3;
         const isMember = decodedToken.role_id === 4;
         const userId = decodedToken.id;
+        const userEmail = decodedToken.email;
 
         localStorage.setItem("isAdmin", String(isAdmin));
         localStorage.setItem("isMemberBureau", String(isMemberBureau));
         localStorage.setItem("isMember", String(isMember));
         localStorage.setItem("isParent", String(isParent));
         localStorage.setItem("userId", String(userId));
+        localStorage.setItem("userEmail", userEmail);
         localStorage.setItem("role_id", String(decodedToken.role_id));
 
         set({

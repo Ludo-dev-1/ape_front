@@ -67,6 +67,11 @@ const user = {
                         >Contact</a
                     >
                 </li>
+                <li>
+                  <a href="/boutique" class="block hover:text-blue-600"
+                      >Boutique</a
+                  >
+                </li>
                  {!user.role && (
                 <li>
                     <a href="/register" class="hover:text-blue-600"
@@ -90,13 +95,19 @@ const user = {
     if (role === "1") {
       // Admin
       navMenu.innerHTML += `
+      <li><a href="/boutique" class="hover:text-blue-600">Boutique</a></li>
+      <li><a href="/panier" class="hover:text-blue-600">Panier</a></li>
+      <li><a href="/profile" class="hover:text-blue-600">Mon Profil</a></li>
         <li><a href="/backoffice" class="hover:text-blue-600">Back-Office</a></li>
         <li><button id="logout-btn" class="hover:text-blue-600 cursor-pointer">Déconnexion</button></li>
+      
       `;
     } else {
       // Utilisateur normal
       navMenu.innerHTML += `
-        <li><a href="/profile" class="hover:text-blue-600">Mon Profil</a></li>
+      <li><a href="/boutique" class="hover:text-blue-600">Boutique</a></li>
+      <li><a href="/panier" class="hover:text-blue-600">Panier</a></li>
+      <li><a href="/profile" class="hover:text-blue-600">Mon Profil</a></li>
         <li><button id="logout-btn" class="hover:text-blue-600 cursor-pointer">Déconnexion</button></li>
       `;
     }
